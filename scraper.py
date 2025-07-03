@@ -1,12 +1,22 @@
 import praw
 import config
 
+
+
+
+
+
 def fetch_reddit_posts():
     reddit = praw.Reddit(
-        client_id=config.CLIENT_ID,
-        client_secret=config.CLIENT_SECRET,
-        user_agent=config.USER_AGENT
+        client_id=config.clientID,
+        client_secret=config.clientSecret,
+        user_agent=config.userAgent,
+        username = config._username,
+        password = config._password
+
     )
-    subreddit = reddit.subreddit("wallstreetbets")
-    for post in subreddit.hot(limit=10):
-        print(post.title)
+    with open("submissions.txt", "w", encoding="utf-8") as file:
+        for submission in reddit.subreddit("wallstreetbets").hot(limit=10):
+            file.write(submission.title + "\n")
+
+
